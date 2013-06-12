@@ -10,17 +10,20 @@ sheet = rb.sheet_by_index(1)
 rows_number = sheet.nrows
 
 peoples_dict = {}  # main dict
+
 for rownum in range(7, rows_number):  # data starts with line 7
     cell = sheet.cell(rownum, 0)
     value = cell.value.strip().replace('\n', ' ')  # delete spaces at start and end
     peoples_count = sheet.cell(rownum, 1).value
     if peoples_count == 0 or peoples_count == '':  # empty row - continue
         continue
-    peoples_count = int(sheet.cell(rownum, 1).value)  # from 12313.0 to integer
+    peoples_count = int(peoples_count)  # from 12313.0 to integer
 
     cell_format = rb.xf_list[cell.xf_index]
-    bold = bool(font_list[cell_format.font_index].bold)
-    italic = bool(font_list[cell_format.font_index].italic)
+    current_font = font_list[cell_format.font_index]
+
+    bold = bool(current_font.bold)
+    italic = bool(current_font.italic)
     indent = cell_format.alignment.indent_level
 
     is_region = bold and not italic
